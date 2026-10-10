@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Food Request | Annara</title>
+  <style>
+    :root{--forest:#063f35;--green:#08744f;--orange:#ff7a1a;--ink:#123d3a}*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background:linear-gradient(135deg,#eef5e8,#f8eee2)}.shell{width:min(1450px,94%);min-height:92vh;margin:4vh auto;display:grid;grid-template-columns:320px 1fr;overflow:hidden;border-radius:22px;background:#fffdfa;box-shadow:0 20px 55px #1a403426}.side{min-height:720px;padding:54px 34px;color:white;background:linear-gradient(#003c35c9,#003c35df),url('images/vegetarian-thali.png') center/cover;display:flex;flex-direction:column}.brand{font-size:25px;font-weight:800;letter-spacing:.5px}.brand span{color:#ffad36}.side h1{font-size:45px;line-height:.98;margin:82px 0 22px}.line{width:43px;height:4px;border-radius:8px;background:var(--orange);margin-bottom:22px}.side p{font-size:18px;line-height:1.55;max-width:190px}.promise{margin-top:auto;display:grid;gap:18px;font-size:15px;font-weight:bold}.promise div{display:flex;align-items:center;gap:12px}.promise b{color:#ffba4d;font-size:25px}.main{padding:0 32px 38px}.topbar{height:64px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee7dc}.links{display:flex;gap:27px;font-size:13px;font-weight:bold}.links a{text-decoration:none;color:#254440;padding:23px 0 18px}.links a.active{border-bottom:3px solid var(--green)}.avatar{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--forest);color:white}.content{display:grid;grid-template-columns:minmax(400px,1.1fr) minmax(280px,.74fr);gap:28px;padding-top:24px}.form-card{padding:24px;border:1px solid #eee9df;border-radius:16px;box-shadow:0 9px 24px #173a3010}.form-card h2{margin:0 0 20px;font-size:25px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.full{grid-column:1/-1}label{display:block;font-size:13px;font-weight:bold;margin:0 0 6px}input,select,textarea{width:100%;border:1px solid #dbe1dc;border-radius:9px;padding:13px;font:inherit;color:var(--ink);background:white}textarea{min-height:92px;resize:vertical}.urgency{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.urgency input{display:none}.urgency label{margin:0;padding:11px 8px;text-align:center;border-radius:9px;border:1px solid #e5e8e3;cursor:pointer;color:#52665e}.urgency input:checked+label{background:#f35a32;border-color:#f35a32;color:white}.submit{margin-top:18px;width:100%;border:0;border-radius:10px;padding:15px;cursor:pointer;color:white;font-size:16px;font-weight:bold;background:linear-gradient(90deg,#ff991c,#f56824)}.message{min-height:19px;text-align:center;color:#08744f;font-size:13px;margin:11px 0 0}.nearby{padding:18px;border-radius:16px;background:linear-gradient(145deg,#eef6e6,#f8f3dc)}.nearby h2{margin:0 0 13px;font-size:18px}.donor{display:grid;grid-template-columns:58px 1fr auto;gap:10px;align-items:center;padding:8px;margin-top:9px;border-radius:10px;background:white;box-shadow:0 4px 9px #53754117}.donor img{width:58px;height:48px;object-fit:cover;border-radius:7px}.donor strong{display:block;font-size:13px}.donor small{color:#52716a;font-size:11px}.donor button{border:0;border-radius:6px;background:var(--green);color:white;padding:7px 9px;cursor:pointer;font-size:11px}.map{position:relative;min-height:165px;margin-top:13px;border-radius:11px;overflow:hidden;background:linear-gradient(135deg,#dce9cf 25%,#f3e3ca 25% 45%,#cce4d4 45% 65%,#f0e6cf 65%)}.map:before,.map:after{content:"";position:absolute;inset:50% -10%;height:13px;background:#fffdf6bb;transform:rotate(-27deg)}.map:after{transform:rotate(36deg)}.pin{position:absolute;z-index:1;width:20px;height:20px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--green)}.pin.one{top:30px;left:30%}.pin.two{top:55px;right:25%;background:#ff7a1a}.pin.three{bottom:25px;left:52%}.map span{position:absolute;z-index:2;bottom:12px;left:12px;padding:7px 10px;background:white;border-radius:8px;font-size:11px;font-weight:bold}@media(max-width:900px){.shell{grid-template-columns:1fr;margin:0;width:100%;border-radius:0}.side{min-height:290px;padding:28px}.side h1{margin:38px 0 12px;font-size:39px}.promise{margin-top:20px;grid-template-columns:repeat(3,1fr)}.main{padding:0 18px 28px}.content{grid-template-columns:1fr}}@media(max-width:560px){.links{gap:13px;font-size:11px}.links a:nth-child(3),.links a:nth-child(4){display:none}.grid{grid-template-columns:1fr}.full{grid-column:auto}.promise{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="side">
+<div class="brand">ann<span>●</span>ra</div>
+<h1>Food<br>Request</h1>
+<div class="line">
+</div>
+<p>Good food reaches more people when we work together.</p>
+<div class="promise">
+<div>
+<b>♟</b> People first</div>
+<div>
+<b>🍃</b> Less waste</div>
+<div>
+<b>♥</b> Brighter tomorrows</div>
+</div>
+</aside>
+    <main class="main">
+      <header class="topbar">
+<nav class="links">
+<a href="index.html">Home</a>
+<a class="active" href="food-request.html">Food Request</a>
+<a href="live-donations.html">Live Donations</a>
+<a href="login.html">Login</a>
+</nav>
+<div class="avatar" title="Your account">♟</div>
+</header>
+      <div class="content">
+        <section class="form-card">
+<h2>Request food for your community</h2>
+<form id="requestForm">
+<div class="grid">
+<div class="full">
+<label for="ngoName">From (NGO / Organisation)</label>
+<input id="ngoName" readonly placeholder="Sign in as an NGO to request food">
+</div>
+<div class="full">
+<label for="location">Location</label>
+<input id="location" placeholder="City or pickup location" required>
+</div>
+<div>
+<label for="meals">Meals needed</label>
+<input id="meals" type="number" min="1" placeholder="e.g. 100" required>
+</div>
+<div>
+<label for="neededBefore">Needed before</label>
+<input id="neededBefore" type="datetime-local" required>
+</div>
+<div class="full">
+<label>Urgency</label>
+<div class="urgency">
+<input id="low" name="urgency" value="Low" type="radio" checked>
+<label for="low">● Low</label>
+<input id="medium" name="urgency" value="Medium" type="radio">
+<label for="medium">● Medium</label>
+<input id="high" name="urgency" value="High" type="radio">
+<label for="high">● High</label>
+</div>
+</div>
+<div class="full">
+<label for="foodType">Food preference</label>
+<select id="foodType">
+<option value="">Any available food</option>
+<option>Vegetarian meals</option>
+<option>Vegan meals</option>
+<option>Mixed meals</option>
+</select>
+</div>
+<div class="full">
+<label for="notes">Additional notes</label>
+<textarea id="notes" placeholder="Dietary needs, number of families, packaging or pickup notes">
+</textarea>
+</div>
+</div>
+<button class="submit" type="submit">Request Food</button>
+<p class="message" id="requestMessage">
+</p>
+</form>
+</section>
+        <aside class="nearby">
+<h2>Nearby Donors</h2>
+<div id="nearbyDonors">
+<p style="font-size:13px;color:#52716a">Loading available food…</p>
+</div>
+<div class="map">
+<i class="pin one">
+</i>
+<i class="pin two">
+</i>
+<i class="pin three">
+</i>
+<span>● Nearby donors</span>
+</div>
+</aside>
+      </div>
+    </main>
+  </div>
+  <script>
+    const API_URL='http://localhost:5001/api';const user=JSON.parse(localStorage.getItem('annaraUser')||'null');const token=localStorage.getItem('annaraToken');const ngoName=document.getElementById('ngoName');if(user)ngoName.value=user.fullName||user.email||'';
+    function imageFor(type){return type==='veg'||type==='vegetarian'?'images/vegetarian-thali.png':type==='vegan'?'images/vegetarian-buffet.png':'images/rice-dal-vegetables.png'}
+    async function loadNearby(){const box=document.getElementById('nearbyDonors');try{const response=await fetch(API_URL+'/donations');const items=await response.json();if(!response.ok)throw new Error();if(!items.length){box.innerHTML='<p style="font-size:13px;color:#52716a">No donations yet. Restaurants can publish food from the Home page.</p>';return}box.innerHTML=items.slice(0,3).map(item=>`<article class="donor">
+<img src="${imageFor(item.foodType)}" alt="Food donation">
+<div>
+<strong>${item.restaurantName||'Nearby restaurant'}</strong>
+<small>📍 ${item.city||'Nearby'} · ${item.mealCount} meals</small>
+</div>
+<button type="button" onclick="chooseDonation(${item.mealCount})">Request</button>
+</article>`).join('')}catch{box.innerHTML='<p style="font-size:13px;color:#9a472d">Start your backend server to see nearby donations.</p>'}}
+    function chooseDonation(meals){document.getElementById('meals').value=meals;document.getElementById('requestForm').scrollIntoView({behavior:'smooth'})}
+    document.getElementById('requestForm').addEventListener('submit',async event=>{event.preventDefault();const message=document.getElementById('requestMessage');if(!token||!user){message.textContent='Please sign in with an NGO account first.';setTimeout(()=>location.href='login.html',1200);return}if(user.role!=='ngo'){message.textContent='Please use an NGO account to request food.';return}const notes=`${document.getElementById('notes').value.trim()}${document.getElementById('location').value.trim()?'\nLocation: '+document.getElementById('location').value.trim():''}\nUrgency: ${document.querySelector('input[name=urgency]:checked').value}`;try{const response=await fetch(API_URL+'/food-requests',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify({requestedFoodType:document.getElementById('foodType').value,requiredQuantity:Number(document.getElementById('meals').value),neededBefore:document.getElementById('neededBefore').value,notes})});const data=await response.json();if(!response.ok)throw new Error(data.message);message.textContent=data.message;event.target.reset();ngoName.value=user.fullName||user.email||''}catch(error){message.textContent=error.message||'Could not send the request. Check that the backend is running.'}});loadNearby();
+  </script>
+<script>
+(() => { const note = document.getElementById('requestMessage'); const currentUser = JSON.parse(localStorage.getItem('annaraUser') || 'null'); const currentToken = localStorage.getItem('annaraToken'); if (!currentToken || !currentUser) note.textContent = 'Please log in with an NGO account before sending a food request.'; else if (currentUser.role !== 'ngo') note.textContent = 'You are signed in as ' + currentUser.role + '. Please log in with an NGO account to send a food request.'; else note.textContent = 'You are signed in as an NGO. Complete the form and click Request Food.'; })();
+</script>
+</body>
+</html>
+

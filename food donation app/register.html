@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | Annara</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="login-page">
+  <nav class="navbar">
+    <a href="index.html" class="logo">ann<span>●</span>ra</a>
+
+    <a class="back-link" href="login.html">← Back to Login</a>
+  </nav>
+
+  <main class="login-container">
+    <section class="login-box">
+      <p class="small-title">JOIN ANNARA</p>
+      <h1>Create your <span>account.</span></h1>
+
+      <form id="registerForm">
+        <label for="registerRole">I am a</label>
+        <select id="registerRole" required>
+          <option value="">Choose your role</option>
+          <option value="restaurant">Restaurant / Hotel</option>
+          <option value="ngo">NGO / Shelter Home</option>
+          <option value="driver">Volunteer / Driver</option>
+        </select>
+
+        <label for="registerName">Your full name</label>
+        <input type="text" id="registerName" placeholder="Your name" required>
+
+        <label for="registerOrganisation">Organisation or hotel name</label>
+        <input type="text" id="registerOrganisation" placeholder="Hotel, restaurant, NGO, or team name" required>
+
+        <label for="registerCity">City</label>
+        <input type="text" id="registerCity" placeholder="e.g. Bengaluru" required>
+
+        <label for="registerPhone">Phone number</label>
+        <input type="tel" id="registerPhone" placeholder="e.g. 9876543210" required>
+
+        <label for="registerEmail">Email address</label>
+        <input
+          type="email"
+          id="registerEmail"
+          placeholder="example@email.com"
+          required
+        >
+
+        <label for="registerPassword">Create password</label>
+        <input
+          type="password"
+          id="registerPassword"
+          placeholder="Minimum 6 characters"
+          required
+        >
+        <label class="show-password">
+          <input type="checkbox" onchange="document.getElementById('registerPassword').type = this.checked ? 'text' : 'password'">
+          Show password
+        </label>
+
+        <button class="main-btn login-btn" type="submit">
+          Create Account
+        </button>
+      </form>
+
+      <p class="register-text">
+        Already have an account?
+        <a href="login.html">Sign in</a>
+      </p>
+
+      <p id="registerMessage" class="login-message"></p>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

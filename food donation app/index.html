@@ -1,0 +1,1982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Annara | Food, Not Waste</title>
+  
+
+  <style>
+    /* Clickable donation cards */
+
+.donation-card {
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.donation-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 18px 30px rgba(23, 59, 50, 0.16);
+}
+
+.donation-card:hover .food-image {
+  transform: scale(1.04);
+}
+
+.donation-card {
+  overflow: hidden;
+}
+
+.food-image {
+  transition: transform 0.35s ease;
+}
+
+.claim-button:hover {
+  background: var(--green);
+  color: white;
+}
+
+/* Hotel details popup */
+
+.hotel-modal {
+  display: none;
+  position: fixed;
+  z-index: 200;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(23, 59, 50, 0.72);
+}
+
+.hotel-popup {
+  width: 100%;
+  max-width: 470px;
+  position: relative;
+  padding: 30px;
+  border-radius: 24px;
+  background: #fffefa;
+}
+
+.hotel-popup h2 {
+  margin-top: 5px;
+  font-size: 28px;
+}
+
+.hotel-popup p {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.hotel-close {
+  position: absolute;
+  top: 12px;
+  right: 17px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.hotel-details {
+  margin-top: 18px;
+  border-radius: 15px;
+  background: var(--pale-green);
+  padding: 16px;
+}
+
+.hotel-details p {
+  margin: 7px 0;
+  color: var(--dark);
+  font-size: 14px;
+}
+    :root {
+      --green: #147556;
+      --dark: #173b32;
+      --orange: #ee7838;
+      --cream: #fcf9f0;
+      --muted: #63746d;
+      --line: #e5e2d8;
+      --pale-green: #edf4e0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--cream);
+      color: var(--dark);
+      font-family: Arial, sans-serif;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+
+    /* Navigation */
+
+    .navbar {
+      height: 86px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      color: var(--dark);
+      font-size: 28px;
+      font-weight: bold;
+      letter-spacing: -1px;
+      text-decoration: none;
+    }
+
+    .logo span {
+      color: var(--orange);
+      font-size: 14px;
+      vertical-align: 4px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+    }
+
+    .nav-links a {
+      color: var(--dark);
+      font-size: 14px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .top-search {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 6px;
+      margin: 8px auto 0;
+      max-width: 390px;
+      width: calc(100% - 40px);
+    }
+
+    .top-search input {
+      flex: 1 1 170px;
+      min-width: 0;
+      padding: 9px 10px;
+    }
+
+    .top-search select {
+      flex: 0 0 105px;
+      min-width: 105px;
+      padding: 9px 6px;
+    }
+
+    .main-button {
+      border: none;
+      border-radius: 30px;
+      background: var(--green);
+      color: white;
+      padding: 13px 21px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .main-button:hover {
+      background: #0d583f;
+    }
+
+    /* Hero */
+
+    .hero {
+      min-height: 500px;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: center;
+      gap: 65px;
+    }
+
+    .small-title {
+      margin: 0 0 12px;
+      color: var(--green);
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: 1.3px;
+    }
+
+    .hero h1 {
+      max-width: 630px;
+      margin: 0;
+      font-size: 70px;
+      line-height: 0.98;
+      letter-spacing: -4px;
+    }
+
+    .hero h1 span {
+      color: var(--orange);
+    }
+
+    .hero-description {
+      max-width: 540px;
+      margin: 24px 0 28px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.5;
+    }
+
+    /* Tracking Card */
+
+    .tracking-card {
+      height: 360px;
+      position: relative;
+      overflow: hidden;
+      padding: 30px;
+      border-radius: 30px;
+      background: linear-gradient(135deg, #dff0ce, #f5d991);
+      box-shadow: 0 20px 42px rgba(23, 59, 50, 0.13);
+    }
+
+    .tracking-card::before {
+      content: "";
+      width: 500px;
+      height: 140px;
+      position: absolute;
+      left: -100px;
+      bottom: 5px;
+      border: 11px solid rgba(255, 255, 255, 0.42);
+      border-radius: 50%;
+      transform: rotate(-17deg);
+    }
+
+    .tracking-label {
+      margin: 0;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .tracking-card h2 {
+      margin-top: 11px;
+      font-size: 27px;
+    }
+
+    .map-route {
+      width: 62%;
+      position: absolute;
+      top: 62%;
+      left: 18%;
+      border-top: 3px dashed var(--green);
+      transform: rotate(7deg);
+    }
+
+    .map-point {
+      z-index: 2;
+      width: 57px;
+      height: 57px;
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: white;
+      box-shadow: 0 6px 13px rgba(0, 0, 0, 0.14);
+      font-size: 27px;
+    }
+
+    .restaurant-point {
+      top: 52%;
+      left: 19%;
+    }
+
+    .home-point {
+      top: 36%;
+      right: 19%;
+    }
+
+    .rider-point {
+      top: 67%;
+      left: 49%;
+      border: 4px solid white;
+      background: var(--orange);
+    }
+
+    .track-button {
+      z-index: 3;
+      position: absolute;
+      bottom: 22px;
+      left: 28px;
+      border: none;
+      border-radius: 30px;
+      background: white;
+      color: var(--green);
+      padding: 12px 17px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .eta-box {
+      position: absolute;
+      right: 25px;
+      bottom: 24px;
+      border-radius: 15px;
+      background: var(--dark);
+      color: white;
+      padding: 13px 16px;
+      font-size: 13px;
+    }
+
+    .online-dot {
+      width: 9px;
+      height: 9px;
+      display: inline-block;
+      margin-right: 7px;
+      border-radius: 50%;
+      background: #b9d76e;
+    }
+
+    /* Statistics */
+
+    .statistics {
+      background: var(--dark);
+      color: white;
+    }
+
+    .statistics-grid {
+      max-width: 1200px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .stat-box {
+      padding: 30px;
+      border-left: 1px solid #406157;
+    }
+
+    .stat-box:first-child {
+      border-left: none;
+    }
+
+    .stat-box h2 {
+      margin: 0;
+      font-size: 30px;
+    }
+
+    .stat-box p {
+      margin-bottom: 0;
+      color: #bdd0c3;
+      font-size: 13px;
+    }
+
+    /* Donations */
+
+    .section {
+      padding-top: 78px;
+      padding-bottom: 78px;
+    }
+
+    .section h2 {
+      margin: 0 0 26px;
+      font-size: 38px;
+      letter-spacing: -2px;
+    }
+
+    .donation-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .donation-card {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: #fffefa;
+    }
+
+    .food-image {
+      width: 100%;
+      height: 165px;
+      display: block;
+      border-radius: 14px;
+      object-fit: cover;
+      background: #f6dfac;
+    }
+
+    .status {
+      display: inline-block;
+      margin-top: 16px;
+      border-radius: 30px;
+      background: #e6f1d9;
+      color: var(--green);
+      padding: 6px 9px;
+      font-size: 10px;
+      font-weight: bold;
+    }
+
+    .urgent {
+      background: #feeadc;
+      color: #ad5529;
+    }
+
+    .donation-card h3 {
+      margin: 13px 0 5px;
+      font-size: 18px;
+    }
+
+    .donation-card p {
+      margin: 5px 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .claim-button {
+      width: 100%;
+      margin-top: 15px;
+      border: 1px solid #b8d7c8;
+      border-radius: 10px;
+      background: white;
+      color: var(--green);
+      padding: 11px;
+      font-weight: bold;
+    }
+
+    /* How It Works */
+
+    .how-section {
+      background: var(--pale-green);
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 17px;
+    }
+
+    .step {
+      padding: 24px;
+      border-radius: 18px;
+      background: white;
+    }
+
+    .step-number {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--orange);
+      color: white;
+      font-weight: bold;
+    }
+
+    .step h3 {
+      margin: 14px 0 7px;
+    }
+
+    .step p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    /* Footer */
+
+    .footer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px 24px;
+      justify-content: space-between;
+      padding-top: 28px;
+      padding-bottom: 38px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .social-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .social-links a {
+      color: var(--green);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .social-links a:hover,
+    .social-links a:focus-visible {
+      text-decoration: underline;
+    }
+
+    .social-links a {
+      align-items: center;
+      background: #e9f2ee;
+      border-radius: 50%;
+      display: inline-flex;
+      height: 36px;
+      justify-content: center;
+      text-decoration: none;
+      width: 36px;
+    }
+
+    .social-links a:hover,
+    .social-links a:focus-visible {
+      background: var(--green);
+      color: #fff;
+      outline: none;
+    }
+
+    .social-links svg {
+      fill: currentColor;
+      height: 18px;
+      width: 18px;
+    }
+
+    /* Live Tracking Popup */
+
+    .tracking-modal {
+      display: none;
+      position: fixed;
+      z-index: 100;
+      inset: 0;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(23, 59, 50, 0.72);
+    }
+
+    .tracking-popup {
+      width: 100%;
+      max-width: 650px;
+      max-height: calc(100vh - 40px);
+      position: relative;
+      overflow-y: auto;
+      padding: 30px;
+      border-radius: 25px;
+      background: #fffefa;
+    }
+
+    .tracking-popup h2 {
+      margin-top: 5px;
+      font-size: 30px;
+    }
+
+    .close-button {
+      position: absolute;
+      z-index: 2;
+      top: 13px;
+      right: 18px;
+      width: 42px;
+      height: 42px;
+      border: none;
+      border-radius: 50%;
+      background: transparent;
+      color: var(--muted);
+      font-size: 30px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .live-map {
+      height: 240px;
+      position: relative;
+      overflow: hidden;
+      margin: 22px 0;
+      border-radius: 19px;
+      background: linear-gradient(145deg, #dcefc9, #f8dd96);
+    }
+
+    .restaurant-map {
+      border: 0;
+      border-radius: 14px;
+      height: 220px;
+      margin: 12px 0 4px;
+      width: 100%;
+    }
+
+    .map-link {
+      color: var(--green);
+      display: inline-block;
+      font-weight: 700;
+      margin: 4px 0 14px;
+    }
+
+    .live-route {
+      width: 76%;
+      height: 8px;
+      position: absolute;
+      top: 49%;
+      left: 12%;
+      border-radius: 20px;
+      background: rgba(20, 117, 86, 0.2);
+    }
+
+    .live-progress {
+      width: 48%;
+      height: 100%;
+      border-radius: 20px;
+      background: var(--green);
+      transition: width 0.8s ease;
+    }
+
+    .live-icon {
+      width: 52px;
+      height: 52px;
+      position: absolute;
+      top: 39%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: white;
+      box-shadow: 0 5px 12px rgba(0, 0, 0, 0.14);
+      font-size: 25px;
+    }
+
+    .live-start {
+      left: 8%;
+    }
+
+    .live-home {
+      right: 8%;
+    }
+
+    .live-rider {
+      left: 45%;
+      border: 4px solid white;
+      background: var(--orange);
+      transition: left 0.8s ease;
+    }
+
+    .trip-information {
+      display: flex;
+      justify-content: space-between;
+      border-radius: 14px;
+      background: var(--pale-green);
+      padding: 15px;
+    }
+
+    .trip-information small {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--muted);
+    }
+
+    .live-note {
+      color: var(--green);
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    @media (max-width: 760px) {
+      .container {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .navbar {
+        flex-wrap: wrap;
+        height: auto;
+        padding-top: 14px;
+        padding-bottom: 14px;
+      }
+
+      .top-search {
+        margin: 0;
+        max-width: none;
+        width: 100%;
+      }
+
+      .hero {
+        min-height: auto;
+        grid-template-columns: 1fr;
+        gap: 35px;
+        padding-top: 35px;
+        padding-bottom: 48px;
+      }
+
+      .hero h1 {
+        font-size: 50px;
+        letter-spacing: -3px;
+      }
+
+      .tracking-card {
+        height: 300px;
+      }
+
+      .statistics-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .stat-box:nth-child(3) {
+        border-left: none;
+      }
+
+      .donation-grid,
+      .steps {
+        grid-template-columns: 1fr;
+      }
+
+      .section {
+        padding-top: 58px;
+        padding-bottom: 58px;
+      }
+
+      .footer {
+        display: block;
+      }
+
+      .footer span {
+        display: block;
+        margin-top: 7px;
+      }
+    }
+    /* Fix hotel-card grid */
+
+.donation-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 20px !important;
+  align-items: start !important;
+}
+
+.donation-card {
+  width: 100% !important;
+  grid-column: auto !important;
+  grid-row: auto !important;
+  position: static !important;
+}
+/* Hotel names and locations column */
+
+.hotel-list-card {
+  min-height: 100%;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: #fffefa;
+}
+
+.hotel-list-card h3 {
+  margin: 5px 0 6px;
+  font-size: 22px;
+}
+
+.hotel-list-text {
+  margin-bottom: 16px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.hotel-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  border: 1px solid #e1e7dc;
+  border-radius: 12px;
+  background: white;
+  padding: 12px;
+  text-align: left;
+  transition: 0.2s;
+}
+
+.hotel-row:hover {
+  border-color: var(--green);
+  background: #edf4e0;
+  transform: translateX(4px);
+}
+
+.hotel-row span {
+  font-size: 22px;
+}
+
+.hotel-row div {
+  flex: 1;
+}
+
+.hotel-row b {
+  display: block;
+  color: var(--dark);
+  font-size: 14px;
+}
+
+.hotel-row small {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.hotel-row strong {
+  color: var(--green);
+  font-size: 22px;
+}
+/* Fix empty spaces between food cards */
+
+.donation-grid {
+  display: block !important;
+  column-count: 3;
+  column-gap: 20px;
+}
+
+.donation-card,
+.hotel-list-card {
+  width: 100% !important;
+  display: inline-block !important;
+  margin: 0 0 20px;
+  break-inside: avoid;
+  vertical-align: top;
+}
+
+@media (max-width: 900px) {
+  .donation-grid {
+    column-count: 2;
+  }
+}
+
+@media (max-width: 600px) {
+  .donation-grid {
+    column-count: 1;
+  }
+}
+
+@media (min-width: 901px) {
+  .donation-grid {
+    column-count: 2;
+  }
+}
+.social-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.social-links a {
+  color: #167055;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.social-links a:hover {
+  text-decoration: underline;
+}
+.social-links {
+  display: flex;
+  gap: 12px;
+}
+
+.social-links a {
+  align-items: center;
+  background: #e9f2ee;
+  border-radius: 50%;
+  color: #167055;
+  display: inline-flex;
+  font-size: 20px;
+  font-weight: bold;
+  height: 36px;
+  justify-content: center;
+  text-decoration: none;
+  width: 36px;
+}
+
+.social-links a:hover {
+  background: #167055;
+  color: white;
+}
+
+.social-links svg {
+  fill: currentColor;
+  height: 18px;
+  width: 18px;
+}
+.hotel-map-links {
+  display: grid;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.hotel-map-links a {
+  background: #e9f2ee;
+  border-radius: 8px;
+  color: #167055;
+  font-weight: bold;
+  padding: 12px;
+  text-decoration: none;
+}
+
+.hotel-map-links a:hover {
+  background: #167055;
+  color: white;
+}
+
+.board-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.board-filters input,
+.board-filters select {
+  background: #fff;
+  border: 1px solid #cfd8d3;
+  border-radius: 8px;
+  font: inherit;
+  padding: 12px;
+}
+
+.board-filters input {
+  flex: 1 1 260px;
+}.board-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.board-filters input,
+.board-filters select {
+  background: #fff;
+  border: 1px solid #cfd8d3;
+  border-radius: 8px;
+  font: inherit;
+  padding: 12px;
+}
+
+.board-filters input {
+  flex: 1 1 260px;
+}
+
+.board-filters.top-search {
+  justify-content: center;
+  margin: 12px auto 0;
+}
+
+.published-section {
+  display: block;
+  margin: 38px 0 28px;
+}
+
+#donationList {
+  column-count: auto !important;
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 24px;
+}
+
+#donationList:not(:empty) {
+  margin-bottom: 28px;
+}
+
+.published-section .impact-card {
+  display: none;
+}
+
+.donation-form {
+  width: 100%;
+  max-width: 760px;
+  margin: 28px auto 40px;
+  padding: 28px;
+  border: 1px solid #e4e9e6;
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 12px 28px rgba(23, 59, 50, 0.06);
+}
+
+.donation-form-title {
+  display: block;
+  margin-bottom: 18px;
+  font-size: 22px;
+}
+
+.donation-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.donation-form input,
+.donation-form select,
+.donation-form textarea {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #cfd8d3;
+  border-radius: 10px;
+  font: inherit;
+}
+
+.donation-form .form-full {
+  grid-column: 1 / -1;
+}
+
+.donation-form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.donation-form label {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.donation-form-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.donation-form-actions small {
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.impact-card {
+  background: #f0f7ee;
+  border: 1px solid #d7e7da;
+  border-radius: 22px;
+  color: var(--dark);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 32px;
+}
+
+.impact-card .impact-icon {
+  align-items: center;
+  background: #dcefcf;
+  border-radius: 50%;
+  display: flex;
+  font-size: 25px;
+  height: 52px;
+  justify-content: center;
+  margin-bottom: 16px;
+  width: 52px;
+}
+
+.impact-card h3 {
+  font-size: 27px;
+  line-height: 1.1;
+  margin: 0 0 12px;
+}
+
+.impact-card p {
+  line-height: 1.55;
+  margin: 0 0 22px;
+}
+
+.impact-steps {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 22px;
+}
+
+.impact-steps span {
+  background: #fffefa;
+  border-radius: 9px;
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 9px 11px;
+}
+
+.impact-card .impact-button {
+  align-self: flex-start;
+}
+
+@media (max-width: 800px) {
+  .published-section {
+    grid-template-columns: 1fr;
+  }
+
+  #donationList {
+    grid-template-columns: 1fr !important;
+  }
+
+  .donation-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .donation-form .form-full {
+    grid-column: auto;
+  }
+
+  .donation-form-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
+  </style>
+</head>
+
+<body>
+
+  <!-- Open the redesigned NGO Food Request page from the project home URL. -->
+  <script>
+    if (!window.location.hash) {
+      window.location.replace("home.html");
+    }
+  </script>
+
+  <nav class="container navbar">
+    <a href="#" class="logo">ann<span>●</span>ra</a>
+
+    <div class="nav-links">
+      <a href="#donations">Live Donations</a>
+      <a href="food-request.html">Food Request</a>
+      <a href="#how">How It Works</a>
+      <a href="login.html">Login</a>
+    </div>
+
+    <button
+  class="main-button"
+  onclick="document.getElementById('donations').scrollIntoView({ behavior: 'smooth' })"
+>
+  Donate Food
+</button>
+  </nav>
+
+  <div class="board-filters top-search" aria-label="Search food donations">
+    <input id="donationSearch" type="search" placeholder="Search food or hotel" oninput="filterDonationCards()">
+    <select id="cityFilter" aria-label="Filter donations by city" onchange="filterDonationCards()">
+      <option value="">All cities</option>
+      <option value="bengaluru">Bengaluru</option>
+      <option value="kolkata">Kolkata</option>
+      <option value="new delhi">New Delhi</option>
+    </select>
+  </div>
+
+  <main>
+
+    <section class="container hero">
+      <div>
+        <p class="small-title">FOOD, NOT WASTE</p>
+
+        <h1>
+          Every good meal deserves
+          <span>a home.</span>
+        </h1>
+
+        <p class="hero-description">
+          Annara connects restaurants and hotels with NGOs, old-age homes,
+          child shelters, and volunteers—so surplus food reaches people
+          who need it.
+        </p>
+
+        <button class="main-button" onclick="goToDonations()">
+          See Food Near You →
+        </button>
+      </div>
+
+      <div class="tracking-card">
+        <p class="tracking-label">LIVE COORDINATION</p>
+        <h2>12 pickups in motion</h2>
+
+        <div class="map-route"></div>
+
+        <div class="map-point restaurant-point">🍛</div>
+        <div class="map-point home-point">🏠</div>
+        <div class="map-point rider-point">🛵</div>
+
+        <button class="track-button" onclick="openTracking()">
+          Track Ravi Live →
+        </button>
+
+        <div class="eta-box">
+          <span class="online-dot"></span>
+          Ravi is <span id="heroMinutes">8</span> minutes away
+        </div>
+      </div>
+    </section>
+
+    <section class="statistics">
+      <div class="statistics-grid">
+        <div class="stat-box">
+          <h2>2,480</h2>
+          <p>Meals redirected this week</p>
+        </div>
+
+        <div class="stat-box">
+          <h2>126</h2>
+          <p>Restaurant & hotel partners</p>
+        </div>
+
+        <div class="stat-box">
+          <h2>84</h2>
+          <p>Verified NGOs & homes</p>
+        </div>
+
+        <div class="stat-box">
+          <h2>1.8 t</h2>
+          <p>Food waste prevented</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section" id="donations">
+      <p class="small-title">LIVE FOOD BOARD</p>
+      <h2>Good food, ready to go.</h2>
+      <div class="hotel-map-links">
+  <a href="https://www.google.com/maps/search/?api=1&query=JW+Marriott+Hotel+Bengaluru" target="_blank">JW Marriott Hotel, Bengaluru</a>
+
+  <a href="https://www.google.com/maps/search/?api=1&query=ITC+Gardenia+Bengaluru" target="_blank">ITC Gardenia, Bengaluru</a>
+
+  <a href="https://www.google.com/maps/search/?api=1&query=The+Oberoi+Bengaluru" target="_blank">The Oberoi, Bengaluru</a>
+
+  <a href="https://www.google.com/maps/search/?api=1&query=Taj+West+End+Bengaluru" target="_blank">Taj West End, Bengaluru</a>
+
+  <a href="https://www.google.com/maps/search/?api=1&query=The+Leela+Palace+Bengaluru" target="_blank">The Leela Palace, Bengaluru</a>
+
+  <a href="https://www.google.com/maps/search/?api=1&query=Taj+Bengal+Kolkata" target="_blank">Taj Bengal, Kolkata</a>
+
+  <a href="https://www.google.com/maps/search/?api=1&query=ITC+Sonar+Kolkata" target="_blank">ITC Sonar, Kolkata</a>
+</div>
+
+      <form class="donation-form" onsubmit="event.preventDefault(); addDonation();">
+        <strong class="donation-form-title">List a new food donation</strong>
+        <div class="donation-form-grid">
+        <input class="form-full" id="foodName" type="text" placeholder="Food available, e.g. vegetable meals" required>
+        <select id="foodType" required>
+          <option value="">Food type</option>
+          <option value="vegetarian">Vegetarian</option>
+          <option value="vegan">Vegan</option>
+          <option value="non-vegetarian">Non-vegetarian</option>
+          <option value="mixed">Mixed</option>
+        </select>
+        <input id="mealCount" type="number" min="1" placeholder="Number of meals" required>
+        <textarea class="form-full" id="foodDescription" rows="3" placeholder="Short description: dishes, packaging, and allergy information"></textarea>
+        <input id="hotelName" type="text" placeholder="Hotel or restaurant name" required>
+        <input id="donationCity" type="text" placeholder="City, e.g. Bengaluru" required>
+        <input class="form-full" id="pickupAddress" type="text" placeholder="Pickup address" required>
+        <label class="form-full">Pickup before
+          <input id="pickupBefore" type="datetime-local" required>
+        </label>
+        </div>
+        <div class="donation-form-actions">
+        <button class="main-button" type="submit">Publish donation</button>
+        <small>Sign in first to publish. New donations appear below for all visitors.</small>
+        </div>
+      </form>
+
+      <section class="published-section" aria-label="Newly published donations and impact message">
+        <div>
+          <h3 style="margin:0 0 16px;">Available food donations</h3>
+          <div id="donationList" class="donation-grid" aria-live="polite"></div>
+        </div>
+
+        <aside class="impact-card">
+          <div class="impact-icon" aria-hidden="true">❤</div>
+          <p class="small-title">FOOD, NOT WASTE</p>
+          <h3>Good food has a next chapter.</h3>
+          <p>A simple food donation can connect a restaurant, a volunteer, and a neighbour who needs a warm meal.</p>
+          <div class="impact-steps" aria-label="How a donation helps">
+            <span>1 · Share surplus food</span>
+            <span>2 · Match a nearby volunteer</span>
+            <span>3 · Serve a warm meal</span>
+          </div>
+          <button class="main-button impact-button" type="button" onclick="document.getElementById('foodName').focus(); document.getElementById('foodName').scrollIntoView({ behavior: 'smooth', block: 'center' });">List surplus food</button>
+        </aside>
+      </section>
+
+      <div class="donation-grid">
+
+        <article class="donation-card">
+          <img
+            class="food-image"
+            src="images/vegetarian-thali.png"
+            alt="Fresh vegetarian thali"
+          >
+
+          <span class="status">AVAILABLE NOW</span>
+          <h3>Fresh vegetarian thalis</h3>
+          <p>Taj West End, Bengaluru</p>
+          <p><b>45 meals</b> · Safe until 9:30 PM</p>
+
+          <button class="claim-button">Claim Donation</button>
+        </article>
+
+        <article class="donation-card">
+          <img
+            class="food-image"
+            src="images/vegetarian-buffet.png"
+            alt="Hotel buffet"
+          >
+
+          <span class="status">AVAILABLE NOW</span>
+          <h3>Mixed buffet portions</h3>
+          <p>Green Path Hotel, Bengaluru</p>
+          <p><b>28 meals</b> · Safe until 10:00 PM</p>
+
+          <button class="claim-button">Claim Donation</button>
+        </article>
+
+        <article class="donation-card">
+          <img
+            class="food-image"
+            src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=900&q=80"
+            alt="Fresh bread"
+          >
+
+          <span class="status urgent">30 MINUTES LEFT</span>
+          <div class="hotel-list-card">
+  <p class="small-title">PARTNER HOTELS</p>
+  <h3>Hotels near you</h3>
+  <p class="hotel-list-text">
+    Click a hotel to view its available food donations.
+  </p>
+
+  <button
+    class="hotel-row"
+    onclick="alert('Taj West End, Bengaluru: 45 vegetarian meals available')"
+  >
+    <span>🏨</span>
+    <div>
+      <b>Taj West End</b>
+      <small>Bengaluru, Karnataka</small>
+    </div>
+    <strong>›</strong>
+  </button>
+
+  <button
+    class="hotel-row"
+    onclick="alert('ITC Gardenia, Bengaluru: 55 biryani meals available')"
+  >
+    <span>🏨</span>
+    <div>
+      <b>ITC Gardenia</b>
+      <small>Bengaluru, Karnataka</small>
+    </div>
+    <strong>›</strong>
+  </button>
+
+  <button
+    class="hotel-row"
+    onclick="alert('Taj Bengal, Kolkata: 42 dinner meals available')"
+  >
+    <span>🏨</span>
+    <div>
+      <b>Taj Bengal</b>
+      <small>Kolkata, West Bengal</small>
+    </div>
+    <strong>›</strong>
+  </button>
+
+  <button
+    class="hotel-row"
+    onclick="alert('The Leela Palace, New Delhi: 80 meals available')"
+  >
+    <span>🏨</span>
+    <div>
+      <b>The Leela Palace</b>
+      <small>New Delhi, Delhi</small>
+    </div>
+    <strong>›</strong>
+  </button>
+</div>
+  <img
+    class="food-image"
+    src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=900&q=80"
+    alt="Biryani food"
+  >
+  <span class="status">AVAILABLE NOW</span>
+  <h3>Veg biryani and curry meals</h3>
+  <p>ITC Gardenia, Bengaluru</p>
+  <p><b>55 meals</b> · Safe until 9:45 PM</p>
+  <button class="claim-button" onclick="alert('Donation claimed from ITC Gardenia')">
+    Claim Donation
+  </button>
+</article>
+
+<article class="donation-card">
+  <img
+    class="food-image"
+    src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=80"
+    alt="Fresh hotel food"
+  >
+  <span class="status">AVAILABLE NOW</span>
+  <h3>Fresh breakfast buffet</h3>
+  <p>The Oberoi, Bengaluru</p>
+  <p><b>35 meals</b> · Safe until 10:15 PM</p>
+  <button class="claim-button" onclick="alert('Donation claimed from The Oberoi')">
+    Claim Donation
+  </button>
+</article>
+
+<article class="donation-card">
+  <img
+    class="food-image"
+    src="images/rice-dal-vegetables.png"
+    alt="Rice and vegetable meal"
+  >
+  <span class="status">AVAILABLE NOW</span>
+  <h3>Rice, dal and vegetable meals</h3>
+  <p>JW Marriott, Bengaluru</p>
+  <p><b>70 meals</b> · Safe until 10:30 PM</p>
+  <button class="claim-button" onclick="alert('Donation claimed from JW Marriott')">
+    Claim Donation
+  </button>
+</article>
+
+<article class="donation-card">
+  <img
+    class="food-image"
+    src="images/vegetarian-dinner.png"
+    alt="Vegetarian dinner"
+  >
+  <span class="status">AVAILABLE NOW</span>
+  <h3>Fresh vegetarian dinner</h3>
+  <p>Taj Bengal, Kolkata</p>
+  <p><b>42 meals</b> · Safe until 9:30 PM</p>
+  <button class="claim-button" onclick="alert('Donation claimed from Taj Bengal')">
+    Claim Donation
+  </button>
+</article>
+
+<article class="donation-card">
+  <img
+    class="food-image"
+    src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?auto=format&fit=crop&w=900&q=80"
+    alt="Sandwiches and bakery food"
+  >
+  <span class="status urgent">30 MINUTES LEFT</span>
+  <h3>Bakery items and sandwiches</h3>
+  <p>The Park, Kolkata</p>
+  <p><b>60 meals</b> · Safe until 8:50 PM</p>
+  <button class="claim-button" onclick="alert('Donation claimed from The Park')">
+    Claim Donation
+  </button>
+</article>
+
+<article class="donation-card">
+  <img
+    class="food-image"
+    src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80"
+    alt="Fresh buffet food"
+  >
+  <span class="status">AVAILABLE NOW</span>
+  <h3>Fresh buffet food</h3>
+  <p>ITC Sonar, Kolkata</p>
+  <p><b>48 meals</b> · Safe until 10:00 PM</p>
+  <button class="claim-button" onclick="alert('Donation claimed from ITC Sonar')">
+    Claim Donation
+  </button>
+</article>
+
+<article class="donation-card">
+  <img
+    class="food-image"
+    src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=80&sat=-20"
+    alt="Curry meal"
+  >
+  <span class="status">AVAILABLE NOW</span>
+  <h3>Roti, rice and curry meals</h3>
+  <p>The Leela Palace, New Delhi</p>
+  <p><b>80 meals</b> · Safe until 10:20 PM</p>
+  <button class="claim-button" onclick="alert('Donation claimed from The Leela Palace')">
+    Claim Donation
+  </button>
+</article>
+        </article>
+
+      </div>
+    </section>
+
+    <section class="how-section" id="how">
+      <div class="container section">
+        <p class="small-title">HOW ANNARA WORKS</p>
+        <h2>Simple for people. Smart behind the scenes.</h2>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <h3>Hotel adds food</h3>
+            <p>
+              Restaurants and hotels list safe surplus food with quantity
+              and pickup time.
+            </p>
+          </div>
+
+          <div class="step">
+            <div class="step-number">2</div>
+            <h3>NGOs get notified</h3>
+            <p>
+              Nearby verified NGOs, shelters, and old-age homes receive
+              a live food alert.
+            </p>
+          </div>
+
+          <div class="step">
+            <div class="step-number">3</div>
+            <h3>Volunteer delivers</h3>
+            <p>
+              A volunteer picks up the food and updates delivery status.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="container footer">
+    <span>© 2026 Annara · Food, not waste.</span>
+    <span>Built for communities across India.</span>
+    <nav class="social-links" aria-label="Social media and contact links">
+      <a href="https://www.facebook.com/JWMarriottHotelBengaluru/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">f</a>
+      <a href="https://instagram.com/your-handle" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm5 3.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 0 1 12 7.5Zm0 2A2.5 2.5 0 1 0 14.5 12 2.5 2.5 0 0 0 12 9.5Z"/></svg>
+      </a>
+      <a href="https://x.com/your-handle" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">𝕏</a>
+      <a href="mailto:your-email@gmail.com" aria-label="Gmail">✉</a>
+    </nav>
+  </footer>
+    
+
+  <div class="tracking-modal" id="trackingModal">
+    <div class="tracking-popup">
+      <button class="close-button" type="button" aria-label="Close tracking" onclick="closeTracking()">×</button>
+
+      <p class="small-title">LIVE PICKUP TRACKING</p>
+      <h2>Ravi is on the way</h2>
+
+      <p id="trackingLocation"><b>Pickup location:</b> JW Marriott Hotel Bengaluru</p>
+      <iframe id="restaurantMap" class="restaurant-map" title="Restaurant pickup location" src="https://www.google.com/maps?q=JW%20Marriott%20Hotel%20Bengaluru&output=embed" loading="lazy"></iframe>
+      <a id="openGoogleMap" class="map-link" href="https://www.google.com/maps/search/?api=1&query=JW%20Marriott%20Hotel%20Bengaluru" target="_blank" rel="noopener noreferrer">Open this location in Google Maps ↗</a>
+
+      <div class="live-map">
+        <div class="live-route">
+          <div class="live-progress" id="liveProgress"></div>
+        </div>
+
+        <div class="live-icon live-start">🍛</div>
+        <div class="live-icon live-rider" id="liveRider">🛵</div>
+        <div class="live-icon live-home">🏠</div>
+      </div>
+
+      <div class="trip-information">
+        <div>
+          <small>Pickup volunteer</small>
+          <b>Ravi Kumar</b>
+        </div>
+
+        <div>
+          <small>Estimated arrival</small>
+          <b><span id="modalMinutes">8</span> minutes</b>
+        </div>
+      </div>
+
+      <p class="live-note">
+        <span class="online-dot"></span>
+        Live location is updating
+      </p>
+    </div>
+  </div>
+
+  <script>
+    let minutesLeft = 8;
+    let trackingTimer;
+
+    function goToDonations() {
+      document.getElementById("donations").scrollIntoView({
+        behavior: "smooth"
+      });
+    }
+
+    function openTracking(restaurant = "JW Marriott Hotel Bengaluru", city = "Bengaluru") {
+      document.getElementById("trackingModal").style.display = "flex";
+      const location = restaurant + ", " + city;
+      document.getElementById("trackingLocation").innerHTML = "<b>Pickup location:</b> " + location;
+      document.getElementById("restaurantMap").src = "https://www.google.com/maps?q=" + encodeURIComponent(location) + "&output=embed";
+      document.getElementById("openGoogleMap").href = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(location);
+
+      minutesLeft = 8;
+      updateTracking();
+
+      clearInterval(trackingTimer);
+
+      trackingTimer = setInterval(function () {
+        if (minutesLeft > 1) {
+          minutesLeft--;
+          updateTracking();
+        } else {
+          clearInterval(trackingTimer);
+        }
+      }, 2000);
+    }
+
+    function closeTracking() {
+      document.getElementById("trackingModal").style.display = "none";
+      clearInterval(trackingTimer);
+    }
+
+    function updateTracking() {
+      const progress = 48 + ((8 - minutesLeft) * 7);
+
+      document.getElementById("liveProgress").style.width = progress + "%";
+      document.getElementById("liveRider").style.left =
+        (10 + progress * 0.73) + "%";
+
+      document.getElementById("modalMinutes").innerText = minutesLeft;
+      document.getElementById("heroMinutes").innerText = minutesLeft;
+      
+    const extraHotels = [
+  {
+    hotel: "ITC Gardenia",
+    city: "Bengaluru",
+    food: "Veg biryani and curry meals",
+    meals: 55,
+    time: "9:45 PM",
+    image: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=900&q=80"
+  },
+  {
+    hotel: "The Oberoi",
+    city: "Bengaluru",
+    food: "Fresh breakfast buffet",
+    meals: 35,
+    time: "10:15 PM",
+    image: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=80"
+  },
+  {
+    hotel: "JW Marriott",
+    city: "Bengaluru",
+    food: "Rice, dal and vegetable meals",
+    meals: 70,
+    time: "10:30 PM",
+    image: "images/rice-dal-vegetables.png"
+  },
+  {
+    hotel: "Taj Bengal",
+    city: "Kolkata",
+    food: "Fresh vegetarian dinner",
+    meals: 42,
+    time: "9:30 PM",
+    image: "images/vegetarian-dinner.png"
+  },
+  {
+    hotel: "The Park",
+    city: "Kolkata",
+    food: "Bakery items and sandwiches",
+    meals: 60,
+    time: "8:50 PM",
+    image: "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?auto=format&fit=crop&w=900&q=80"
+  },
+  {
+    hotel: "ITC Sonar",
+    city: "Kolkata",
+    food: "Fresh buffet food",
+    meals: 48,
+    time: "10:00 PM",
+    image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80"
+  },
+  {
+    hotel: "The Leela Palace",
+    city: "New Delhi",
+    food: "Roti, rice and curry meals",
+    meals: 80,
+    time: "10:20 PM",
+    image: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=80&sat=-20"
+  }
+];
+
+function createHotelModal() {
+  const modal = document.createElement("div");
+
+  modal.className = "hotel-modal";
+  modal.id = "hotelModal";
+
+  modal.innerHTML = `
+    <div class="hotel-popup">
+      <button class="hotel-close" onclick="closeHotelModal()">×</button>
+
+      <p class="small-title">DONATION DETAILS</p>
+      <h2 id="modalHotelName">Hotel Name</h2>
+
+      <p id="modalFoodName">Food details</p>
+
+      <div class="hotel-details">
+        <p><b>Location:</b> <span id="modalCity"></span></p>
+        <p><b>Available meals:</b> <span id="modalMeals"></span></p>
+        <p><b>Pickup before:</b> <span id="modalTime"></span></p>
+        <p><b>Status:</b> Available now</p>
+      </div>
+
+      <a id="hotelGoogleMap" class="map-link" target="_blank" rel="noopener noreferrer">View this restaurant on Google Maps ↗</a>
+
+      <button id="trackHotelButton" class="main-button" type="button">Track this pickup</button>
+
+      <button class="main-button" onclick="closeHotelModal()">
+        Close Details
+      </button>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+}
+
+function showHotel(hotel, city, food, meals, time) {
+  document.getElementById("modalHotelName").innerText = hotel;
+  document.getElementById("modalCity").innerText = city;
+  document.getElementById("modalFoodName").innerText = food;
+  document.getElementById("modalMeals").innerText = meals + " meals";
+  document.getElementById("modalTime").innerText = time;
+  document.getElementById("hotelGoogleMap").href = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(hotel + ", " + city);
+  document.getElementById("trackHotelButton").onclick = function () {
+    closeHotelModal();
+    openTracking(hotel, city);
+  };
+
+  document.getElementById("hotelModal").style.display = "flex";
+}
+
+function closeHotelModal() {
+  document.getElementById("hotelModal").style.display = "none";
+}
+
+function claimDonation(button, hotelName) {
+  button.innerText = "Donation Claimed ✓";
+  button.style.background = "#147556";
+  button.style.color = "white";
+  button.disabled = true;
+
+  alert(
+    "Donation from " + hotelName +
+    " has been claimed. The hotel and volunteer have been notified."
+  );
+}
+
+function addExtraHotels() {
+  const grid = document.querySelector(".donation-grid");
+
+  extraHotels.forEach(function (item) {
+    const card = document.createElement("article");
+
+    card.className = "donation-card";
+
+    card.innerHTML = `
+      <img class="food-image" src="${item.image}" alt="${item.food}">
+
+      <span class="status">AVAILABLE NOW</span>
+
+      <h3>${item.food}</h3>
+      <p>${item.hotel}, ${item.city}</p>
+      <p><b>${item.meals} meals</b> · Safe until ${item.time}</p>
+
+      <button class="claim-button">
+  Claim Donation
+</button>
+    `;
+
+    card.addEventListener("click", function (event) {
+      if (event.target.tagName !== "BUTTON") {
+        showHotel(
+          item.hotel,
+          item.city,
+          item.food,
+          item.meals,
+          item.time
+        );
+      }
+    });
+
+    card.querySelector("button").addEventListener("click", function (event) {
+  event.stopPropagation();
+  claimDonation(this, item.hotel);
+});
+    });
+
+    grid.appendChild(card);
+  
+}
+
+function makeOldCardsClickable() {
+  const oldCards = document.querySelectorAll(".donation-card");
+
+  oldCards.forEach(function (card) {
+    const hotelText = card.querySelectorAll("p")[0].innerText;
+    const foodName = card.querySelector("h3").innerText;
+    const mealText = card.querySelectorAll("p")[1].innerText;
+
+    card.addEventListener("click", function (event) {
+      if (event.target.tagName !== "BUTTON") {
+        showHotel(
+          hotelText,
+          "Bengaluru",
+          foodName,
+          mealText,
+          "Check card for time"
+        );
+      }
+    });
+
+    card.querySelector("button").addEventListener("click", function () {
+      claimDonation(this, hotelText);
+    });
+  });
+}
+
+createHotelModal();
+makeOldCardsClickable();
+addExtraHotels();
+    }
+  </script>
+  <script>
+  const hotelData = [
+    {
+      hotel: "Taj West End",
+      city: "Bengaluru",
+      food: "Fresh vegetarian thalis",
+      meals: "45 meals",
+      time: "9:30 PM"
+    },
+    {
+      hotel: "Green Path Hotel",
+      city: "Bengaluru",
+      food: "Mixed buffet portions",
+      meals: "28 meals",
+      time: "10:00 PM"
+    },
+    {
+      hotel: "Olive Beach",
+      city: "Bengaluru",
+      food: "Breads, rolls and pastries",
+      meals: "60 servings",
+      time: "8:45 PM"
+    }
+  ];
+
+  const cards = document.querySelectorAll(".donation-card");
+
+  cards.forEach(function (card, index) {
+    const data = hotelData[index];
+
+    if (!data) {
+      return;
+    }
+
+    card.style.cursor = "pointer";
+
+    card.addEventListener("mouseenter", function () {
+      card.style.transform = "translateY(-8px)";
+      card.style.boxShadow = "0 18px 30px rgba(23, 59, 50, 0.18)";
+      card.style.transition = "0.25s";
+    });
+
+    card.addEventListener("mouseleave", function () {
+      card.style.transform = "translateY(0)";
+      card.style.boxShadow = "none";
+    });
+
+    card.addEventListener("click", function () {
+      alert(
+        "Hotel: " + data.hotel +
+        "\nCity: " + data.city +
+        "\nFood: " + data.food +
+        "\nAvailable: " + data.meals +
+        "\nPickup before: " + data.time
+      );
+    });
+
+    const button = card.querySelector(".claim-button");
+
+    button.addEventListener("click", function (event) {
+      event.stopPropagation();
+
+      button.innerText = "Donation Claimed ✓";
+      button.style.background = "#147556";
+      button.style.color = "white";
+      button.disabled = true;
+
+      alert(
+        "Donation from " + data.hotel +
+        " has been claimed. The hotel and volunteer have been notified."
+      );
+    });
+  });
+</script>
+<script>
+  function claimDonation(button, hotelName) {
+    button.innerText = "Donation Claimed ✓";
+    button.style.background = "#147556";
+    button.style.color = "white";
+    button.disabled = true;
+
+    alert(
+      "Donation from " + hotelName +
+      " has been claimed. The hotel and volunteer have been notified."
+    );
+  }
+
+  function claimFood(button, hotelName) {
+    claimDonation(button, hotelName);
+  }
+
+  document.querySelectorAll(".claim-button").forEach(function (button) {
+    button.onclick = function (event) {
+      event.stopPropagation();
+
+      const card = button.closest(".donation-card");
+      const textLines = card.querySelectorAll("p");
+
+      let hotelName = "this hotel";
+
+      if (textLines.length > 0) {
+        hotelName = textLines[0].innerText;
+      }
+
+      claimDonation(button, hotelName);
+    };
+  });
+</script>
+
+<script>
+  function filterDonationCards() {
+    const searchBox = document.getElementById("donationSearch");
+    const cityBox = document.getElementById("cityFilter");
+    if (!searchBox || !cityBox) return;
+
+    const search = searchBox.value.trim().toLowerCase();
+    const city = cityBox.value;
+    const cards = Array.from(document.querySelectorAll(
+      "article.donation-card, #donationList > .donation-card"
+    ));
+
+    cards.forEach(function (card) {
+      const text = card.textContent.toLowerCase();
+      const matchesSearch = !search || text.includes(search);
+      const matchesCity = !city || text.includes(city);
+      card.style.display = matchesSearch && matchesCity ? "" : "none";
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const searchBox = document.getElementById("donationSearch");
+    const cityBox = document.getElementById("cityFilter");
+    if (!searchBox || !cityBox) return;
+    searchBox.addEventListener("input", filterDonationCards);
+    cityBox.addEventListener("change", filterDonationCards);
+  });
+</script>
+
+<script src="script.js"></script>
+
+</body>
+</html>

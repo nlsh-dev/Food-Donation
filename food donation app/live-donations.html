@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Live Donations | Annara</title>
+<style>:root{--g:#08744f;--d:#073f36;--c:#fbf7ee;--t:#123d3a}*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--c);color:var(--t)}.top{padding:0 5%;height:72px;background:#fffdfa;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e9e5d9}.brand{font-weight:800;font-size:25px}.brand span{color:#ff7a1a}nav{display:flex;gap:28px}nav a{text-decoration:none;color:var(--t);font-size:14px;font-weight:bold;padding:27px 0 22px}nav a.active{border-bottom:3px solid var(--g)}.login{background:var(--d);color:#fff;border-radius:20px;padding:9px 15px;text-decoration:none;font-size:13px;font-weight:bold}.hero{padding:58px 5% 36px;background:radial-gradient(circle at 85% 0,#dff0d8,transparent 27%),linear-gradient(120deg,#fffdf7,#f3f8eb)}.eyebrow{color:var(--g);font-weight:bold;letter-spacing:2px;font-size:12px}.hero h1{font-size:clamp(34px,4vw,58px);margin:12px 0}.hero p{max-width:590px;color:#547069;font-size:18px;line-height:1.5}.filters{width:min(1100px,90%);margin:-20px auto 28px;padding:15px;background:white;border-radius:16px;box-shadow:0 10px 30px #28513d19;display:grid;grid-template-columns:1fr 220px auto;gap:12px}.filters input,.filters select{width:100%;border:1px solid #dbe4dc;border-radius:10px;padding:13px;font:inherit}.filters button{border:0;border-radius:10px;padding:0 22px;background:var(--g);color:white;font-weight:bold;cursor:pointer}.wrap{width:min(1100px,90%);margin:0 auto 55px}.heading{display:flex;justify-content:space-between;align-items:center;margin:30px 0 18px}.heading h2{margin:0;font-size:28px}.heading span{color:#5e786e;font-size:14px}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.card{overflow:hidden;background:white;border:1px solid #e8e7df;border-radius:18px;box-shadow:0 8px 22px #1f493411}.card img{width:100%;height:165px;object-fit:cover}.card main{padding:17px}.tag{display:inline-block;padding:6px 9px;border-radius:20px;background:#e7f3da;color:var(--g);font-size:11px;font-weight:bold}.card h3{font-size:20px;margin:12px 0 5px}.card p{margin:5px 0;color:#5c746d;font-size:14px}.card footer{display:flex;align-items:center;justify-content:space-between;margin-top:16px}.meals{font-weight:bold}.claim{border:0;background:var(--g);color:white;border-radius:8px;padding:10px 13px;font-weight:bold;cursor:pointer}.empty{grid-column:1/-1;text-align:center;padding:42px;background:white;border-radius:16px;color:#61756e}@media(max-width:800px){nav{gap:14px}nav a{font-size:12px}.filters{grid-template-columns:1fr}.filters button{padding:13px}.cards{grid-template-columns:1fr}.hero{padding-top:35px}}@media(max-width:500px){.top{padding:0 4%}.brand{font-size:20px}nav a:nth-child(4){display:none}.login{display:none}.wrap,.filters{width:92%}}</style>
+</head>
+<body>
+<header class="top">
+<div class="brand">ann<span>●</span>ra</div>
+<nav>
+<a href="index.html">Home</a>
+<a href="food-request.html">Food Request</a>
+<a class="active" href="live-donations.html">Live Donations</a>
+<a href="login.html">Login</a>
+</nav>
+<a class="login" href="login.html">My account</a>
+</header>
+<section class="hero">
+<p class="eyebrow">FOOD, NOT WASTE</p>
+<h1>Fresh food, ready to reach someone.</h1>
+<p>Explore surplus meals published by nearby restaurants. NGOs can claim a donation and begin the collection process.</p>
+</section>
+<section class="filters">
+<input id="search" type="search" placeholder="Search food or restaurant">
+<select id="city">
+<option value="">All cities</option>
+<option value="Bengaluru">Bengaluru</option>
+<option value="Kolkata">Kolkata</option>
+<option value="New Delhi">New Delhi</option>
+</select>
+<button id="searchButton">Search donations</button>
+</section>
+<main class="wrap">
+<div class="heading">
+<h2>Available food donations</h2>
+<span id="count">Loading…</span>
+</div>
+<section class="cards" id="cards">
+</section>
+</main>
+<script>const API='http://localhost:5001/api',cards=document.getElementById('cards'),count=document.getElementById('count'),user=JSON.parse(localStorage.getItem('annaraUser')||'null'),token=localStorage.getItem('annaraToken');function image(t){return t==='veg'||t==='vegetarian'?'images/vegetarian-thali.png':t==='vegan'?'images/vegetarian-buffet.png':t==='mixed'?'images/buffet.jpg':'images/rice-dal-vegetables.png'}function esc(v){const d=document.createElement('div');d.textContent=v||'';return d.innerHTML}async function load(){cards.innerHTML='<div class="empty">Loading live donations…</div>';const p=new URLSearchParams();if(search.value.trim())p.set('search',search.value.trim());if(city.value)p.set('city',city.value);try{const r=await fetch(API+'/donations?'+p),data=await r.json();if(!r.ok)throw Error(data.message);count.textContent=data.length+' donation'+(data.length===1?'':'s')+' available';if(!data.length){cards.innerHTML='<div class="empty">No food donations match your search yet.</div>';return}cards.innerHTML=data.map(x=>`<article class="card">
+<img src="${image(x.foodType)}" alt="Available food">
+<main>
+<span class="tag">AVAILABLE NOW</span>
+<h3>${esc(x.foodName)}</h3>
+<p>${esc(x.restaurantName)} · ${esc(x.city)}</p>
+<p>Pickup before: ${new Date(x.pickupBefore).toLocaleString()}</p>
+<footer>
+<span class="meals">${x.mealCount} meals</span>
+<button class="claim" onclick="claim(${x.id},${x.mealCount})">Claim food</button>
+</footer>
+</main>
+</article>`).join('')}catch{count.textContent='';cards.innerHTML='<div class="empty">Cannot load donations. Keep the backend terminal running, then refresh.</div>'}}async function claim(id,max){if(!token||!user){location.href='login.html';return}if(user.role!=='ngo'){alert('Please sign in with an NGO account to claim food.');return}const n=Number(prompt('How many meals do you need? (Maximum '+max+')',max));if(!n)return;try{const r=await fetch(API+'/donations/'+id+'/claim',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify({requestedMeals:n})}),d=await r.json();if(!r.ok)throw Error(d.message);alert(d.message);load()}catch(e){alert(e.message||'Could not claim this donation.')}}searchButton.onclick=load;search.onkeydown=e=>{if(e.key==='Enter')load()};load();</script>
+<script>
+(() => {
+  const searchInput = document.getElementById('search'), cityInput = document.getElementById('city'), searchButton = document.getElementById('searchButton'), cardArea = document.getElementById('cards'), countLabel = document.getElementById('count'); let timer;
+  const escapeText = value => { const e = document.createElement('div'); e.textContent = value || ''; return e.innerHTML; };
+  const imageFor = (name = '', type = '') => { const meal = name.toLowerCase(); if (meal.includes('biryani')) return 'images/vegetarian-buffet.png'; if (meal.includes('thali')) return 'images/vegetarian-thali.png'; if (meal.includes('rice') || meal.includes('dal') || meal.includes('curry')) return 'images/rice-dal-vegetables.png'; if (meal.includes('bread') || meal.includes('snack')) return 'images/bread.jpg'; if (meal.includes('mixed') || meal.includes('buffet')) return 'images/buffet.jpg'; if (meal.includes('vegan') || type === 'vegan') return 'images/vegetarian-dinner.png'; return type === 'mixed' ? 'images/buffet.jpg' : 'images/vegetarian-dinner.png'; };
+  async function runSearch() { cardArea.innerHTML = '<div class="empty">Searching donations…</div>'; const p = new URLSearchParams(); if (searchInput.value.trim()) p.set('search', searchInput.value.trim()); if (cityInput.value) p.set('city', cityInput.value); try { const r = await fetch('http://localhost:5001/api/donations?' + p); const list = await r.json(); if (!r.ok) throw Error(list.message || 'Could not search donations.'); countLabel.textContent = list.length + ' donation' + (list.length === 1 ? '' : 's') + ' available'; if (!list.length) { cardArea.innerHTML = '<div class="empty">No donations found. A restaurant must first publish a food donation using a Restaurant account.</div>'; return; } cardArea.innerHTML = list.map(d => `<article class="card"><img src="${imageFor(d.foodName, d.foodType)}" alt="Available food"><main><span class="tag">AVAILABLE NOW</span><h3>${escapeText(d.foodName)}</h3><p>${escapeText(d.restaurantName)} · ${escapeText(d.city)}</p><p>Pickup before: ${new Date(d.pickupBefore).toLocaleString()}</p><footer><span class="meals">${d.mealCount} meals</span><button class="claim" onclick="claim(${d.id},${d.mealCount})">Claim food</button></footer></main></article>`).join(''); } catch (error) { countLabel.textContent = ''; cardArea.innerHTML = '<div class="empty">' + escapeText(error.message || 'Start the backend server and try again.') + '</div>'; } }
+  searchButton.onclick = runSearch; cityInput.onchange = runSearch; searchInput.oninput = () => { clearTimeout(timer); timer = setTimeout(runSearch, 300); }; searchInput.onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); runSearch(); } }; runSearch();
+})();
+</script>
+</body>
+</html>
+
