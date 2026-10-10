@@ -8,12 +8,8 @@ import lombok.Setter;
 public class FoodRequestRequestDto {
 
     private Long ngoId;
-
     private String foodName;
-
     private Integer requestedMeals;
-
     private String description;
-
     private String deliveryAddress;
 }

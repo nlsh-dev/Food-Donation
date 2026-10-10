@@ -2,12 +2,16 @@
 package Neelesh_Backend.Back_End.Model.donation;
 
 import Neelesh_Backend.Back_End.Model.donation.DonationStatus;
+import Neelesh_Backend.Back_End.Model.foodclaim.FoodClaim;
+import Neelesh_Backend.Back_End.Model.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "donations")
@@ -52,4 +56,13 @@ public class Donation {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
     }
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id", nullable = false)
+    private User restaurant;
+
+
+    @OneToMany(mappedBy = "donation")
+    private List<FoodClaim> foodClaims = new ArrayList<>();
 }

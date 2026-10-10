@@ -1,6 +1,6 @@
 package Neelesh_Backend.Back_End.service.TrackingLocation;
 
-import Neelesh_Backend.Back_End.Model.trackinglocation.TrackingLocation;
+import Neelesh_Backend.Back_End.Model.TrackingLocation.TrackingLocation;
 import Neelesh_Backend.Back_End.dto.TrackingLocation.TrackingLocationRequestDto;
 import Neelesh_Backend.Back_End.dto.TrackingLocation.TrackingLocationResponseDto;
 import Neelesh_Backend.Back_End.exception.ResourceNotFoundException;

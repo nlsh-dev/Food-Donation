@@ -8,14 +8,9 @@ import lombok.Setter;
 public class DeliveryRequestDto {
 
     private Long donationId;
-
     private Long ngoId;
-
     private Long driverId;
-
     private Integer mealCount;
-
     private String pickupAddress;
-
     private String deliveryAddress;
 }

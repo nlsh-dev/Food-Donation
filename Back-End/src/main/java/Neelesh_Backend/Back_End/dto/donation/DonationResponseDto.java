@@ -1,12 +1,8 @@
 package Neelesh_Backend.Back_End.dto.donation;
 
-
-
-
 import Neelesh_Backend.Back_End.Model.donation.DonationStatus;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.time.LocalDateTime;
 
 @Getter
@@ -14,28 +10,17 @@ import java.time.LocalDateTime;
 public class DonationResponseDto {
 
     private Long id;
-
-    private String foodName;
-
-    private String description;
-
-    private String foodType;
-
-    private Integer mealCount;
-
-    private Integer remainingMeals;
-
-    private String pickupAddress;
-
-    private LocalDateTime pickupBefore;
-
-    private DonationStatus status;
-
-    private LocalDateTime createdAt;
-
-    // Added during the relationship phase
+    private Long restaurantId;
     private String restaurantName;
-
     private String city;
+    private String foodName;
+    private String description;
+    private String foodType;
+    private Integer totalMeals;
+    private Integer remainingMeals;
+    private Integer mealCount;
+    private String pickupAddress;
+    private LocalDateTime pickupBefore;
+    private DonationStatus status;
+    private LocalDateTime createdAt;
 }
-

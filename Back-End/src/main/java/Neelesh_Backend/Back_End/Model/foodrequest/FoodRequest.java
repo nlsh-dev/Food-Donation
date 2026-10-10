@@ -1,5 +1,6 @@
 package Neelesh_Backend.Back_End.Model.foodrequest;
 
+import Neelesh_Backend.Back_End.Model.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,8 +19,7 @@ public class FoodRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Long ngoId;
+
 
     @Column(nullable = false, length = 150)
     private String foodName;
@@ -48,4 +48,13 @@ public class FoodRequest {
             status = FoodRequestStatus.PENDING;
         }
     }
+
+
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ngo_id", nullable = false)
+    private User ngo;
+
+
 }

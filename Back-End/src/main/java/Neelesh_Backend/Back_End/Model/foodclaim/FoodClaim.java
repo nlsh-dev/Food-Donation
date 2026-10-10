@@ -1,4 +1,8 @@
+
 package Neelesh_Backend.Back_End.Model.foodclaim;
+
+import Neelesh_Backend.Back_End.Model.donation.Donation;
+import Neelesh_Backend.Back_End.Model.user.User;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -19,13 +23,6 @@ public class FoodClaim {
     private Long id;
 
     @Column(nullable = false)
-    private Long donationId;
-
-
-    @Column(nullable = false)
-    private Long ngoId;
-
-    @Column(nullable = false)
     private Integer requestedMeals;
 
     @Enumerated(EnumType.STRING)
@@ -43,4 +40,12 @@ public class FoodClaim {
             status = FoodClaimStatus.PENDING;
         }
     }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "donation_id", nullable = false)
+    private Donation donation;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ngo_id", nullable = false)
+    private User ngo;
 }

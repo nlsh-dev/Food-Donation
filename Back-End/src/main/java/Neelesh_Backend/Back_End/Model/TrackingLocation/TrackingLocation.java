@@ -1,39 +1,31 @@
-package Neelesh_Backend.Back_End.Model.trackinglocation;
+package Neelesh_Backend.Back_End.Model.TrackingLocation;
+
+import Neelesh_Backend.Back_End.Model.delivery.Delivery;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "tracking_locations")
 @Getter
 @Setter
-@NoArgsConstructor
+@Entity
 public class TrackingLocation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Long deliveryId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "delivery_id", nullable = false)
+    private Delivery delivery;
 
-    @Column(nullable = false)
     private Double latitude;
 
-    @Column(nullable = false)
     private Double longitude;
 
     private Double speed;
 
-    @Column(nullable = false, updatable = false)
     private LocalDateTime recordedAt;
-
-    @PrePersist
-    protected void onCreate() {
-        recordedAt = LocalDateTime.now();
-    }
 }
