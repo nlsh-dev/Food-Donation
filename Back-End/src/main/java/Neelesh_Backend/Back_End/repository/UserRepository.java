@@ -1,7 +1,7 @@
 
 package Neelesh_Backend.Back_End.repository;
 
-import Neelesh_Backend.Back_End.Model.User;
+import Neelesh_Backend.Back_End.Model.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,3 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends JpaRepository<User, Long> {
 
 }
+
+
+

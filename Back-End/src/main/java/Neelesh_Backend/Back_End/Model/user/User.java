@@ -1,4 +1,4 @@
-package Neelesh_Backend.Back_End.Model;
+package Neelesh_Backend.Back_End.Model.user;
 
 import jakarta.persistence.*;
 import lombok.Getter;
